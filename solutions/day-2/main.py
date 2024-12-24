@@ -1,12 +1,5 @@
 from typing import List
 
-# Pre-processing
-input_file: str = "input.txt"
-with open(input_file, "r") as file:
-    input_list: List[List[int]] = [
-        [int(i) for i in line.split()] for line in file.read().splitlines()
-    ]
-
 
 def is_safe(report: List[int], dampened: bool = False) -> bool:
     previous: int = report[0]
@@ -30,12 +23,17 @@ def is_safe(report: List[int], dampened: bool = False) -> bool:
     return True
 
 
-# Part 1
-reports: List[bool] = [is_safe(report) for report in input_list]
-print(f"Number of safe reports: {sum(reports)}")
+if __name__ == "__main__":
+    input_file: str = "input.txt"
+    with open(input_file, "r") as file:
+        input_list: List[List[int]] = [
+            [int(i) for i in line.split()] for line in file.read().splitlines()
+        ]
 
-# Part 2
-reports_dampened: List[bool] = [
-    is_safe(report, dampened=True) for report in input_list]
-print(f"Number of safe reports (with Problem Dampener): {
-      sum(reports_dampened)}")
+    reports: List[bool] = [is_safe(report) for report in input_list]
+    print(f"Number of safe reports: {sum(reports)}")
+
+    reports_dampened: List[bool] = [
+        is_safe(report, dampened=True) for report in input_list]
+    print(f"Number of safe reports (with Problem Dampener): {
+        sum(reports_dampened)}")
