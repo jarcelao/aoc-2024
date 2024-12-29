@@ -9,10 +9,11 @@ def is_safe(report: List[int], dampened: bool = False) -> bool:
     for i in range(1, len(report)):
         difference: int = report[i] - previous
 
-        if not (1 <= abs(difference) <= 3) \
-                or (increasing and report[i] < previous) \
-                or (not increasing and report[i] > previous):
-
+        if (
+            not (1 <= abs(difference) <= 3)
+            or (increasing and report[i] < previous)
+            or (not increasing and report[i] > previous)
+        ):
             if dampened and not dampened_used:
                 dampened_used = True
             else:
@@ -34,6 +35,7 @@ if __name__ == "__main__":
     print(f"Number of safe reports: {sum(reports)}")
 
     reports_dampened: List[bool] = [
-        is_safe(report, dampened=True) for report in input_list]
+        is_safe(report, dampened=True) for report in input_list
+    ]
     print(f"Number of safe reports (with Problem Dampener): {
         sum(reports_dampened)}")

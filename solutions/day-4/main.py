@@ -62,17 +62,18 @@ class WordSearch:
         self._search_grid: List[List[str]] = []
 
     def load_from_text(self, text: str) -> None:
-        self._search_grid = [[char for char in line]
-                             for line in text.split("\n")]
+        self._search_grid = [[char for char in line] for line in text.split("\n")]
 
     def count(self, word: str) -> int:
         row_strs: List[str] = self._gen_row_strs()
         col_strs: List[str] = self._gen_col_strs()
         diag_strs: List[str] = self._gen_diag_strs()
 
-        return sum([KMPSearch.count(row_str, word) for row_str in row_strs] +
-                   [KMPSearch.count(col_str, word) for col_str in col_strs] +
-                   [KMPSearch.count(diag_str, word) for diag_str in diag_strs])
+        return sum(
+            [KMPSearch.count(row_str, word) for row_str in row_strs]
+            + [KMPSearch.count(col_str, word) for col_str in col_strs]
+            + [KMPSearch.count(diag_str, word) for diag_str in diag_strs]
+        )
 
     def count_x(self, word: str) -> int:
         boxes: List[List[List[str]]] = self._gen_boxes(len(word))
@@ -82,9 +83,12 @@ class WordSearch:
         for box in boxes:
             diagonal: str = "".join([box[i][i] for i in range(len(box))])
             antidiagonal: str = "".join(
-                [box[i][len(box) - i - 1] for i in range(len(box))])
+                [box[i][len(box) - i - 1] for i in range(len(box))]
+            )
 
-            if (word in diagonal or word_reversed in diagonal) and (word in antidiagonal or word_reversed in antidiagonal):
+            if (word in diagonal or word_reversed in diagonal) and (
+                word in antidiagonal or word_reversed in antidiagonal
+            ):
                 x_count += 1
 
         return x_count
@@ -105,8 +109,8 @@ class WordSearch:
 
         for x in range(max_col):
             for y in range(max_row):
-                fdiag[x+y].append(self._search_grid[y][x])
-                bdiag[x-y-min_bdiag].append(self._search_grid[y][x])
+                fdiag[x + y].append(self._search_grid[y][x])
+                bdiag[x - y - min_bdiag].append(self._search_grid[y][x])
 
         return ["".join(row) for row in itertools.chain(fdiag, bdiag)]
 
@@ -119,7 +123,7 @@ class WordSearch:
             for j in range(max_col - size + 1):
                 box: List[List[str]] = []
                 for k in range(size):
-                    box.append(self._search_grid[i + k][j:j + size])
+                    box.append(self._search_grid[i + k][j : j + size])
                 boxes.append(box)
 
         return boxes

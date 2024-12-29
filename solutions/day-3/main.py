@@ -11,7 +11,11 @@ class MulHandler:
         self._numbers_pattern: Pattern = re.compile(r"\d+")
 
     def extract_instructions(self, input: str, with_do: bool = False) -> List[str]:
-        return self._all_pattern.findall(input) if with_do else self._mul_pattern.findall(input)
+        return (
+            self._all_pattern.findall(input)
+            if with_do
+            else self._mul_pattern.findall(input)
+        )
 
     def process_mul(self, mul: str) -> int:
         a, b = map(int, self._numbers_pattern.findall(mul))
