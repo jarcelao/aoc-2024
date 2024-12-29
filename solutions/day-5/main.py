@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 
 class PageOrderHandler:
@@ -16,8 +16,8 @@ class PageOrderHandler:
     def _parse_page_order(self, page_order_str: str) -> List[int]:
         return [int(num) for num in page_order_str.split(",")]
 
-    def _locate_invalid_pages(self, page_order: List[int]) -> List[int]:
-        invalid_pages: List[int] = []
+    def _locate_invalid_pages(self, page_order: List[int]) -> List[Tuple[int, int]]:
+        invalid_pages: List[Tuple[int, int]] = []
         for i in range(len(page_order)):
             for j in range(i + 1, len(page_order)):
                 if page_order[j] not in self._page_rules.get(page_order[i], []):
@@ -30,7 +30,7 @@ class PageOrderHandler:
 
     def fix_page_order(self, page_order_str: str) -> str:
         page_order: List[int] = self._parse_page_order(page_order_str)
-        invalid_pages: List[int] = self._locate_invalid_pages(page_order)
+        invalid_pages: List[Tuple[int, int]] = self._locate_invalid_pages(page_order)
 
         while invalid_pages:
             for j, i in invalid_pages:

@@ -10,12 +10,12 @@ class KMPSearch:
         j: int = 0
 
         lps: List[int] = KMPSearch._gen_lps(pattern)
-        text = list(text)
+        text_list: list[str] = list(text)
 
         indices: List[int] = []
 
-        while i < len(text):
-            if text[i] == pattern[j]:
+        while i < len(text_list):
+            if text_list[i] == pattern[j]:
                 i += 1
                 j += 1
 
@@ -36,20 +36,20 @@ class KMPSearch:
 
     @staticmethod
     def _gen_lps(pattern: str) -> List[int]:
-        pattern: List[str] = list(pattern)
-        lps: List[int] = [0] * len(pattern)
+        pattern_list: List[str] = list(pattern)
+        lps: List[int] = [0] * len(pattern_list)
 
-        l: int = 0
+        length: int = 0
         i: int = 1
 
-        while i < len(pattern):
-            if pattern[i] == pattern[l]:
-                l += 1
-                lps[i] = l
+        while i < len(pattern_list):
+            if pattern_list[i] == pattern_list[length]:
+                length += 1
+                lps[i] = length
                 i += 1
             else:
-                if l != 0:
-                    l = lps[l - 1]
+                if length != 0:
+                    length = lps[length - 1]
                 else:
                     lps[i] = 0
                     i += 1
